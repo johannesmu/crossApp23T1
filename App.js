@@ -5,14 +5,32 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 // screens
 import { HomeScreen } from './screens/HomeScreen';
 import { SignUpScreen } from './screens/SignUp';
+import { SignInScreen } from './screens/SignIn';
+// firebase
+import { firebaseConfig } from './config/Config';
+import { initializeApp } from 'firebase/app'
+import { getAuth, createUserWithEmailAndPassword } from "firebase/auth"
 
 const Stack = createNativeStackNavigator();
 
+const FBapp = initializeApp( firebaseConfig )
+const FBauth = getAuth( FBapp )
+
 export default function App() {
+
+  const SignUp = ( email, password ) => {
+    createUserWithEmailAndPassword( FBauth, email, password )
+    .then( (userCredential) => console.log(userCredential) )
+    .catch( (error) => console.log(error) )
+  }
+
   return (
     <NavigationContainer>
      <Stack.Navigator>
-        <Stack.Screen name="Signup" component={SignUpScreen} />
+        <Stack.Screen name="Signup">
+          { (props) => <SignUpScreen {...props} handler={SignUp} /> }
+        </Stack.Screen>
+        <Stack.Screen name="Signin" component={SignInScreen} />
         <Stack.Screen name="Home" component={HomeScreen} />
       </Stack.Navigator>
     </NavigationContainer>
