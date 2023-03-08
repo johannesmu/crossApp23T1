@@ -6,11 +6,17 @@ export function SignUpScreen ( props ) {
             <Text style={ styles.title }>Sign up for an account</Text>
             <View style={ styles.inputGroup }>
                 <Text>Email address</Text>
-                <TextInput style={styles.input} />
+                <TextInput 
+                    style={styles.input} 
+                    placeholder="you@domain.com"
+                />
             </View>
             <View style={ styles.inputGroup }>
                 <Text>Password</Text>
-                <TextInput style={styles.input} />
+                <TextInput 
+                    style={styles.input} 
+                    placeholder="minimum 8 characters"
+                />
             </View>
             <TouchableOpacity style={ styles.button }>
                 <Text style={ styles.buttonText }>Sign up</Text>
