@@ -14,7 +14,8 @@ import {
   getAuth, 
   createUserWithEmailAndPassword,
   onAuthStateChanged,
-  signOut
+  signOut,
+  signInWithEmailAndPassword
 } from "firebase/auth"
 
 const Stack = createNativeStackNavigator();
@@ -24,6 +25,7 @@ const FBauth = getAuth( FBapp )
 
 export default function App() {
   const [auth,setAuth] = useState()
+  const [ errorMsg, setErrorMsg ] = useState()
 
   onAuthStateChanged( FBauth, (user) => {
     if( user ) {
@@ -40,14 +42,16 @@ export default function App() {
     .catch( (error) => console.log(error) )
   }
 
-  const SignIn = () => {
-
+  const SignIn = ( email, password ) => {
+    signInWithEmailAndPassword( FBauth, email, password )
+    .then( (userCredential) => console.log(userCredential) )
+    .catch( (error) => console.log(error) )
   }
 
   const SignOut = () => {
     signOut(FBauth)
     .then( () => {
-      //now th user is signed out
+      //now the user is signed out
     })
     .catch((err) => console.log(error) )
   }

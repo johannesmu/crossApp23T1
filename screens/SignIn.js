@@ -4,8 +4,10 @@ import { useNavigation } from "@react-navigation/native";
 
 export function SignInScreen ( props ) {
     const [ email, setEmail ] = useState("")
+    const [ validEmail, setValidEmail ] = useState(false)
     const [ password, setPassword ] = useState("")
-    
+    const [ validPassword, setValidPassword ] = useState(false)
+    const [ validForm, setValidForm ] = useState( false )
     const navigation = useNavigation()
 
     return(
@@ -30,7 +32,10 @@ export function SignInScreen ( props ) {
                     secureTextEntry={true}
                 />
             </View>
-            <TouchableOpacity style={styles.button }  >
+            <TouchableOpacity 
+                style={ (validForm) ? styles.button : styles.buttonDisabled }  
+                disabled={ (validForm) ? false : true}
+            >
                 <Text style={ styles.buttonText }>Sign in</Text>
             </TouchableOpacity>
             <TouchableOpacity 
