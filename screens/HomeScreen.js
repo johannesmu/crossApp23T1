@@ -17,6 +17,10 @@ export function HomeScreen ( props ) {
             <TouchableOpacity style={ styles.button } onPress={ () => props.signOutHandler() }>
                 <Text style={ styles.buttonText } >Sign out</Text>
             </TouchableOpacity>
+            <Text>Add some data</Text>
+            <TouchableOpacity style={ styles.button } onPress={ () => props.add() } >
+                <Text  style={ styles.buttonText } >Click to add data</Text>
+            </TouchableOpacity>
         </View>
     )
 }

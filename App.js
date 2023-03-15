@@ -17,7 +17,14 @@ import {
   signOut,
   signInWithEmailAndPassword
 } from "firebase/auth"
-import { getFirestore } from 'firebase/firestore'
+
+import { 
+  getFirestore,
+  doc,
+  setDoc,
+  addDoc,
+  collection
+} from 'firebase/firestore'
 
 const Stack = createNativeStackNavigator();
 
@@ -58,6 +65,12 @@ export default function App() {
     .catch((err) => console.log(error) )
   }
 
+  const AddData = async () => {
+    const path = "users"
+    const data = { id: new Date().getTime(), description: "sample data"}
+    const ref = await addDoc( collection( FBdb, path), data )
+  }
+
   return (
     <NavigationContainer>
      <Stack.Navigator>
@@ -68,7 +81,7 @@ export default function App() {
           { (props) => <SignInScreen {...props} handler={SignIn} authStatus={auth} /> }
         </Stack.Screen>
         <Stack.Screen name="Home">
-          { (props) => <HomeScreen {...props} authStatus={auth} signOutHandler={SignOut} /> }
+          { (props) => <HomeScreen {...props} authStatus={auth} signOutHandler={SignOut} add={AddData} /> }
         </Stack.Screen>
       </Stack.Navigator>
     </NavigationContainer>
