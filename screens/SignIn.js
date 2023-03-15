@@ -8,7 +8,41 @@ export function SignInScreen ( props ) {
     const [ password, setPassword ] = useState("")
     const [ validPassword, setValidPassword ] = useState(false)
     const [ validForm, setValidForm ] = useState( false )
+    
     const navigation = useNavigation()
+
+    useEffect( () => {
+        if( email.indexOf('@') > 0 ) {
+            setValidEmail( true )
+        }
+        else {
+            setValidEmail( false )
+        }
+    }, [email] )
+
+    useEffect( () => {
+        if( password.length >= 8 ) {
+             setValidPassword( true )
+        }
+        else {
+             setValidPassword( false )
+        }
+     }, [password])
+
+     useEffect( () => {
+        if( validEmail && validPassword ) {
+            setValidForm(true)
+        }
+        else {
+            setValidForm(false)
+        }
+    })
+
+    useEffect( () => {
+        if( props.authStatus ) {
+            navigation.navigate("Home")
+        }
+    }, [ props.authStatus ] )
 
     return(
         <View style={ styles.page }>
@@ -35,6 +69,7 @@ export function SignInScreen ( props ) {
             <TouchableOpacity 
                 style={ (validForm) ? styles.button : styles.buttonDisabled }  
                 disabled={ (validForm) ? false : true}
+                onPress={ () => props.handler(email, password) }
             >
                 <Text style={ styles.buttonText }>Sign in</Text>
             </TouchableOpacity>
@@ -42,7 +77,7 @@ export function SignInScreen ( props ) {
                 style={styles.signInLink}
                 onPress={ () => navigation.navigate("Signup") }
             >
-                <Text style={styles.signInLinkText}>Don't have an account? Sign in</Text>
+                <Text style={styles.signInLinkText}>Don't have an account? Sign up</Text>
             </TouchableOpacity>
         </View>
     )
