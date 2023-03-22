@@ -40,7 +40,10 @@ export function SignInScreen(props) {
 
   useEffect(() => {
     if (props.authStatus) {
-      navigation.navigate("Home")
+      // navigate adds a back arrow to the header
+      // navigation.navigate("Home")
+      // reset will make "Home" the root page of the navigation
+      navigation.reset( { index: 0, routes: [ {name: "Home"} ] } )
     }
   }, [props.authStatus])
 

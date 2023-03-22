@@ -7,7 +7,7 @@ export function HomeScreen(props) {
 
   useEffect(() => {
     if (!props.authStatus) {
-      navigation.navigate("Signin")
+        navigation.reset( { index: 0, routes: [ {name: "Signin"} ] } )
     }
   }, [props.authStatus])
 
