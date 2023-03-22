@@ -1,25 +1,38 @@
-import { View, Text, TouchableOpacity, StyleSheet } from "react-native"
+import { View, Text, TouchableOpacity, Modal, TextInput, StyleSheet } from "react-native"
 import { useNavigation } from "@react-navigation/native"
 import { useState, useEffect } from 'react'
 
 export function HomeScreen(props) {
   const navigation = useNavigation()
 
+  const [showModal, setShowModal] = useState(false)
+
   useEffect(() => {
     if (!props.authStatus) {
-        navigation.reset( { index: 0, routes: [ {name: "Signin"} ] } )
+      navigation.reset({ index: 0, routes: [{ name: "Signin" }] })
     }
   }, [props.authStatus])
 
   return (
     <View>
       <Text>Home Screen</Text>
-      <TouchableOpacity style={styles.button} onPress={() => props.signOutHandler()}>
-        <Text style={styles.buttonText} >Sign out</Text>
-      </TouchableOpacity>
-      <Text>Add some data</Text>
-      <TouchableOpacity style={styles.button} onPress={() => props.add()} >
-        <Text style={styles.buttonText} >Click to add data</Text>
+      {/* modal element */}
+      <Modal
+        visible={showModal}
+        onRequestClose={() => setShowModal(false)}
+      >
+        <Text>Modal</Text>
+        <TextInput />
+        <TouchableOpacity
+          style={ styles.button}
+          onPress={() => setShowModal(false)}
+        >
+          <Text style={ styles.buttonText } >Close</Text>
+        </TouchableOpacity>
+      </Modal>
+      {/* button to open modal */}
+      <TouchableOpacity style={styles.button} onPress={() => setShowModal(true)} >
+        <Text style={styles.buttonText}>Add Note</Text>
       </TouchableOpacity>
     </View>
   )
