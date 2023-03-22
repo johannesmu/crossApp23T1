@@ -14,21 +14,27 @@ export function HomeScreen(props) {
   }, [props.authStatus])
 
   return (
-    <View>
+    <View style={ styles.screen }>
       <Text>Home Screen</Text>
       {/* modal element */}
       <Modal
+        transparent={ false }
+        animationType="slide"
         visible={showModal}
         onRequestClose={() => setShowModal(false)}
       >
-        <Text>Modal</Text>
-        <TextInput />
-        <TouchableOpacity
-          style={ styles.button}
-          onPress={() => setShowModal(false)}
-        >
-          <Text style={ styles.buttonText } >Close</Text>
-        </TouchableOpacity>
+        <View style={ styles.modal }>
+          <Text>Title</Text>
+          <TextInput />
+          <Text>Note</Text>
+          <TextInput />
+          <TouchableOpacity
+            style={ styles.button}
+            onPress={() => setShowModal(false)}
+          >
+            <Text style={ styles.buttonText } >Close</Text>
+          </TouchableOpacity>
+        </View>
       </Modal>
       {/* button to open modal */}
       <TouchableOpacity style={styles.button} onPress={() => setShowModal(true)} >
@@ -39,6 +45,16 @@ export function HomeScreen(props) {
 }
 
 const styles = StyleSheet.create({
+  screen: {
+    justifyContent: "center",
+  },
+  modal: {
+    padding: 10,
+    flex: 1,
+    justifyContent: "start",
+    margin: 20,
+    backgroundColor: "lightblue",
+  },
   button: {
     backgroundColor: "#000000",
     padding: 5,
@@ -47,5 +63,6 @@ const styles = StyleSheet.create({
     color: "#ffffff",
     fontSize: 12,
     textAlign: "center",
-  }
+  },
+
 })
