@@ -66,11 +66,11 @@ export default function App() {
     .catch((err) => console.log(error) )
   }
 
-  const AddData = async () => {
+  const AddData = async ( note ) => {
     const userId = auth.uid
     const path = `users/${userId}/notes`
-    const data = { id: new Date().getTime(), description: "sample data"}
-    const ref = await addDoc( collection( FBdb, path), data )
+    // const data = { id: new Date().getTime(), description: "sample data"}
+    const ref = await addDoc( collection( FBdb, path), note )
   }
 
   return (

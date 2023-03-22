@@ -6,12 +6,20 @@ export function HomeScreen(props) {
   const navigation = useNavigation()
 
   const [showModal, setShowModal] = useState(false)
+  const [title, setTitle] = useState('')
+  const [note,setNote] = useState('')
 
   useEffect(() => {
     if (!props.authStatus) {
       navigation.reset({ index: 0, routes: [{ name: "Signin" }] })
     }
   }, [props.authStatus])
+
+  const saveNote = () => {
+    setShowModal( false )
+    const noteObj = { title: title, content: note }
+    props.add( noteObj )
+  }
 
   return (
     <View style={styles.screen}>
@@ -25,9 +33,18 @@ export function HomeScreen(props) {
       >
         <View style={styles.modal}>
           <Text style={styles.modalLabel}>Title</Text>
-          <TextInput style={styles.modalInput} />
+          <TextInput 
+            style={styles.modalInput} 
+            value={ title } 
+            onChangeText={ (val) => setTitle(val)}
+          />
           <Text style={styles.modalLabel} >Note</Text>
-          <TextInput multiline={true} style={styles.modalInput2} />
+          <TextInput 
+            multiline={true} 
+            style={styles.modalInput2} 
+            value={ note }
+            onChangeText={ (val) => setNote(val) }
+          />
           <View style={ styles.buttonsRow }>
             <TouchableOpacity
               style={styles.button}
@@ -35,7 +52,10 @@ export function HomeScreen(props) {
             >
               <Text style={styles.buttonText} >Close</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={ styles.addButton }>
+            <TouchableOpacity 
+              style={ styles.addButton }
+              onPress={ () => saveNote() }
+            >
               <Text style={ styles.buttonText }>Save</Text>
             </TouchableOpacity>
           </View>
