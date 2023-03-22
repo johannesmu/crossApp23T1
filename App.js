@@ -68,7 +68,7 @@ export default function App() {
 
   const AddData = async () => {
     const userId = auth.uid
-    const path = "users"
+    const path = `users/${userId}/notes`
     const data = { id: new Date().getTime(), description: "sample data"}
     const ref = await addDoc( collection( FBdb, path), data )
   }
