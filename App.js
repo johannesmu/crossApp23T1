@@ -23,7 +23,10 @@ import {
   doc,
   setDoc,
   addDoc,
-  collection
+  collection,
+  query,
+  where,
+  onSnapshot
 } from 'firebase/firestore'
 
 const Stack = createNativeStackNavigator();
