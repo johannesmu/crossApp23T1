@@ -118,7 +118,7 @@ export default function App() {
           { (props) => <SignInScreen {...props} handler={SignIn} authStatus={auth} /> }
         </Stack.Screen>
         <Stack.Screen name="Home" options={{ headerRight: () =><SignOutButton /> }}>
-          { (props) => <HomeScreen {...props} authStatus={auth}  add={AddData} /> }
+          { (props) => <HomeScreen {...props} authStatus={auth}  add={AddData} data={noteData} /> }
         </Stack.Screen>
       </Stack.Navigator>
     </NavigationContainer>

@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity, Modal, TextInput, StyleSheet } from "react-native"
+import { View, Text, TouchableOpacity, Modal, TextInput, StyleSheet, FlatList } from "react-native"
 import { useNavigation } from "@react-navigation/native"
 import { useState, useEffect } from 'react'
 
@@ -22,11 +22,22 @@ export function HomeScreen(props) {
     }
   }, [props.authStatus])
 
-  
+  const ListItem = ( props ) => {
+    return (
+      <View style={styles.listItem} >
+        <Text>{ props.title}</Text>
+      </View>
+    )
+  }
+
+  const ListItemSeparator = ( props ) => {
+    return (
+      <View style={styles.separator} ></View>
+    )
+  }
 
   return (
     <View style={styles.screen}>
-      <Text>Home Screen</Text>
       {/* modal element */}
       <Modal
         transparent={false}
@@ -69,6 +80,12 @@ export function HomeScreen(props) {
       <TouchableOpacity style={styles.button} onPress={() => setShowModal(true)} >
         <Text style={styles.buttonText}>Add Note</Text>
       </TouchableOpacity>
+      <FlatList 
+        data={props.data} 
+        renderItem={ ({item}) => ( <ListItem title={item.title} id={item.id} content={item.content} />) }
+        keyExtractor={ item => item.id }
+        ItemSeparatorComponent={ ListItemSeparator }
+      />
     </View>
   )
 }
@@ -116,6 +133,13 @@ const styles = StyleSheet.create({
   buttonsRow: {
     flexDirection: "row",
     marginVertical: 10,
+  },
+  listItem: {
+    padding: 10,
+  },
+  separator: {
+    backgroundColor: '#CCCCCC',
+    height: 5,
   }
 })
 
