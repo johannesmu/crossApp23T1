@@ -8,12 +8,12 @@ export function HomeScreen(props) {
 
   const [showModal, setShowModal] = useState(false)
   const [title, setTitle] = useState('')
-  const [note,setNote] = useState('')
+  const [note, setNote] = useState('')
 
   const saveNote = () => {
-    setShowModal( false )
+    setShowModal(false)
     const noteObj = { title: title, content: note }
-    props.add( noteObj )
+    props.add(noteObj)
   }
 
   useEffect(() => {
@@ -22,15 +22,30 @@ export function HomeScreen(props) {
     }
   }, [props.authStatus])
 
-  const ListItem = ( props ) => {
+  const ListClickHandler = (data) => {
+    navigation.navigate("Detail", data)
+  }
+
+  const ListItem = (props) => {
     return (
-      <View style={styles.listItem} >
-        <Text>{ props.title}</Text>
+      <View
+        style={styles.listItem}
+
+      >
+        <TouchableOpacity onPress={
+            () => ListClickHandler({ id: props.id, title: props.title, content: props.content })
+          }
+        >
+          <Text>
+            {props.title}
+          </Text>
+        </TouchableOpacity>
+        <Text>{props.content}</Text>
       </View>
     )
   }
 
-  const ListItemSeparator = ( props ) => {
+  const ListItemSeparator = (props) => {
     return (
       <View style={styles.separator} ></View>
     )
@@ -47,30 +62,30 @@ export function HomeScreen(props) {
       >
         <View style={styles.modal}>
           <Text style={styles.modalLabel}>Title</Text>
-          <TextInput 
-            style={styles.modalInput} 
-            value={ title } 
-            onChangeText={ (val) => setTitle(val)}
+          <TextInput
+            style={styles.modalInput}
+            value={title}
+            onChangeText={(val) => setTitle(val)}
           />
           <Text style={styles.modalLabel} >Note</Text>
-          <TextInput 
-            multiline={true} 
-            style={styles.modalInput2} 
-            value={ note }
-            onChangeText={ (val) => setNote(val) }
+          <TextInput
+            multiline={true}
+            style={styles.modalInput2}
+            value={note}
+            onChangeText={(val) => setNote(val)}
           />
-          <View style={ styles.buttonsRow }>
+          <View style={styles.buttonsRow}>
             <TouchableOpacity
               style={styles.button}
               onPress={() => setShowModal(false)}
             >
               <Text style={styles.buttonText} >Close</Text>
             </TouchableOpacity>
-            <TouchableOpacity 
-              style={ styles.addButton }
-              onPress={ () => saveNote() }
+            <TouchableOpacity
+              style={styles.addButton}
+              onPress={() => saveNote()}
             >
-              <Text style={ styles.buttonText }>Save</Text>
+              <Text style={styles.buttonText}>Save</Text>
             </TouchableOpacity>
           </View>
 
@@ -80,11 +95,11 @@ export function HomeScreen(props) {
       <TouchableOpacity style={styles.button} onPress={() => setShowModal(true)} >
         <Text style={styles.buttonText}>Add Note</Text>
       </TouchableOpacity>
-      <FlatList 
-        data={props.data} 
-        renderItem={ ({item}) => ( <ListItem title={item.title} id={item.id} content={item.content} />) }
-        keyExtractor={ item => item.id }
-        ItemSeparatorComponent={ ListItemSeparator }
+      <FlatList
+        data={props.data}
+        renderItem={({ item }) => (<ListItem title={item.title} id={item.id} content={item.content} />)}
+        keyExtractor={item => item.id}
+        ItemSeparatorComponent={ListItemSeparator}
       />
     </View>
   )
@@ -136,10 +151,12 @@ const styles = StyleSheet.create({
   },
   listItem: {
     padding: 10,
+    flexDirection: "row",
+    justifyContent: "space-between"
   },
   separator: {
     backgroundColor: '#CCCCCC',
-    height: 5,
+    height: 2,
   }
 })
 

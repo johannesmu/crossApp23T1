@@ -8,6 +8,7 @@ import { useState, useEffect } from 'react';
 import { HomeScreen } from './screens/HomeScreen';
 import { SignUpScreen } from './screens/SignUp';
 import { SignInScreen } from './screens/SignIn';
+import { DetailScreen } from './screens/DetailScreen';
 // firebase modules
 import { firebaseConfig } from './config/Config';
 import { initializeApp } from 'firebase/app'
@@ -119,6 +120,9 @@ export default function App() {
         </Stack.Screen>
         <Stack.Screen name="Home" options={{ headerRight: () =><SignOutButton /> }}>
           { (props) => <HomeScreen {...props} authStatus={auth}  add={AddData} data={noteData} /> }
+        </Stack.Screen>
+        <Stack.Screen name="Detail">
+          { (props) => <DetailScreen {...props} /> }
         </Stack.Screen>
       </Stack.Navigator>
     </NavigationContainer>
