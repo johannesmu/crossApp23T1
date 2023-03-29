@@ -1,6 +1,9 @@
 import { View, Text, TouchableOpacity, Modal, TextInput, StyleSheet } from "react-native"
 import { useNavigation } from "@react-navigation/native"
 import { useState, useEffect } from 'react'
+import { createDrawerNavigator } from '@react-navigation/drawer'
+
+const Drawer = createDrawerNavigator()
 
 export function HomeScreen(props) {
   const navigation = useNavigation()
