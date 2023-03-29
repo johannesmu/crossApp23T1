@@ -1,11 +1,7 @@
 import { View, Text, TouchableOpacity, Modal, TextInput, StyleSheet } from "react-native"
-import { useNavigation } from "@react-navigation/native"
 import { useState, useEffect } from 'react'
 
-
-export function HomeScreen(props) {
-  const navigation = useNavigation()
-
+export function NotesScreen( props ) {
   const [showModal, setShowModal] = useState(false)
   const [title, setTitle] = useState('')
   const [note,setNote] = useState('')
@@ -15,15 +11,7 @@ export function HomeScreen(props) {
     const noteObj = { title: title, content: note }
     props.add( noteObj )
   }
-
-  useEffect(() => {
-    if (!props.authStatus) {
-      navigation.reset({ index: 0, routes: [{ name: "Signin" }] })
-    }
-  }, [props.authStatus])
-
   
-
   return (
     <View style={styles.screen}>
       <Text>Home Screen</Text>
@@ -118,4 +106,3 @@ const styles = StyleSheet.create({
     marginVertical: 10,
   }
 })
-

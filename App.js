@@ -1,6 +1,6 @@
 import 'react-native-gesture-handler'
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { useState, useEffect } from 'react';
@@ -100,6 +100,14 @@ export default function App() {
     })
   }
 
+  const SignOutButton = ( props ) => {
+    return(
+      <TouchableOpacity onPress={ () => SignOut() }>
+        <Text>Sign Out</Text>
+      </TouchableOpacity>
+    )
+  }
+
   return (
     <NavigationContainer>
      <Stack.Navigator>
@@ -109,8 +117,8 @@ export default function App() {
         <Stack.Screen name="Signin">
           { (props) => <SignInScreen {...props} handler={SignIn} authStatus={auth} /> }
         </Stack.Screen>
-        <Stack.Screen name="Home">
-          { (props) => <HomeScreen {...props} authStatus={auth} signOutHandler={SignOut} add={AddData} /> }
+        <Stack.Screen name="Home" options={{ headerRight: () =><SignOutButton /> }}>
+          { (props) => <HomeScreen {...props} authStatus={auth}  add={AddData} /> }
         </Stack.Screen>
       </Stack.Navigator>
     </NavigationContainer>
