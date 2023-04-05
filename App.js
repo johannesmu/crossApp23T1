@@ -12,6 +12,7 @@ import { HomeScreen } from './screens/HomeScreen';
 import { SignUpScreen } from './screens/SignUp';
 import { SignInScreen } from './screens/SignIn';
 import { DetailScreen } from './screens/DetailScreen';
+import { TabScreen } from './screens/TabScreen';
 // firebase modules
 import { firebaseConfig } from './config/Config';
 import { initializeApp } from 'firebase/app'
@@ -126,11 +127,11 @@ export default function App() {
             </AuthContext.Provider>
           }
         </Stack.Screen>
-        <Stack.Screen name="Home" options={{ headerRight: () => <SignOutButton /> }}>
+        <Stack.Screen name="Home" options={{ headerShown: false }}>
           {(props) =>
             <AuthContext.Provider value={auth}>
               <NoteContext.Provider value={noteData}>
-                <HomeScreen {...props} add={AddData} />
+                <TabScreen {...props} />
               </NoteContext.Provider>
             </AuthContext.Provider>
           }
