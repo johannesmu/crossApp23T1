@@ -7,6 +7,7 @@ import { useState, useEffect } from 'react';
 // contexts
 import { AuthContext } from './contexts/AuthContext'
 import { NoteContext } from './contexts/NoteContext';
+import { FBAuthContext } from './contexts/FBAuthContext';
 // screens
 import { HomeScreen } from './screens/HomeScreen';
 import { SignUpScreen } from './screens/SignUp';
@@ -102,13 +103,6 @@ export default function App() {
     })
   }
 
-  const SignOutButton = (props) => {
-    return (
-      <TouchableOpacity onPress={() => SignOut()}>
-        <Text>Sign Out</Text>
-      </TouchableOpacity>
-    )
-  }
 
   return (
     <NavigationContainer>
@@ -129,11 +123,13 @@ export default function App() {
         </Stack.Screen>
         <Stack.Screen name="Home" options={{ headerShown: false }}>
           {(props) =>
-            <AuthContext.Provider value={auth}>
-              <NoteContext.Provider value={noteData}>
-                <TabScreen {...props} />
-              </NoteContext.Provider>
-            </AuthContext.Provider>
+            <FBAuthContext.Provider value={ FBauth } >
+              <AuthContext.Provider value={auth}>
+                <NoteContext.Provider value={noteData}>
+                  <TabScreen {...props} />
+                </NoteContext.Provider>
+              </AuthContext.Provider>
+            </FBAuthContext.Provider>
           }
         </Stack.Screen>
         <Stack.Screen name="Detail">
