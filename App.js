@@ -4,6 +4,8 @@ import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { useState, useEffect } from 'react';
+// contexts
+import { AuthContext } from './contexts/AuthContext'
 // screens
 import { HomeScreen } from './screens/HomeScreen';
 import { SignUpScreen } from './screens/SignUp';
