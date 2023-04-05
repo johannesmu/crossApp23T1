@@ -11,6 +11,8 @@ import { HomeScreen } from './screens/HomeScreen';
 import { SignUpScreen } from './screens/SignUp';
 import { SignInScreen } from './screens/SignIn';
 import { DetailScreen } from './screens/DetailScreen';
+// components
+import { SignOutButton } from './components/SignOutButton';
 // firebase modules
 import { firebaseConfig } from './config/Config';
 import { initializeApp } from 'firebase/app'
@@ -47,7 +49,6 @@ export default function App() {
   onAuthStateChanged(FBauth, (user) => {
     if (user) {
       setAuth(user)
-      // console.log( user.uid )
     }
     else {
       setAuth(null)
@@ -98,17 +99,8 @@ export default function App() {
         item.id = note.id
         notes.push(item)
       })
-      // console.log( notes )
       setNoteData(notes)
     })
-  }
-
-  const SignOutButton = (props) => {
-    return (
-      <TouchableOpacity onPress={() => SignOut()}>
-        <Text>Sign Out</Text>
-      </TouchableOpacity>
-    )
   }
 
   return (
@@ -122,9 +114,13 @@ export default function App() {
                 }
             </Stack.Screen>
             <Stack.Screen name="Signin">
-              {(props) => <SignInScreen {...props} handler={SignIn} />}
+              {(props) => 
+              <AuthContext.Provider value={auth}>
+                <SignInScreen {...props} handler={SignIn} />
+              </AuthContext.Provider>
+              }
             </Stack.Screen>
-            <Stack.Screen name="Home" options={{ headerRight: () => <SignOutButton /> }}>
+            <Stack.Screen name="Home" options={{ headerRight: () => <SignOutButton handler={SignOut} text="Sign Out" /> }}>
               {(props) =>
               <AuthContext.Provider value={auth}>
                 <HomeScreen {...props} add={AddData} data={noteData} />

@@ -54,7 +54,8 @@ export function SignUpScreen(props) {
     if(authStatus) {
       navigation.reset({ index: 0, routes: [{ name: "Home" }] })
     }
-  })
+    
+  }, [authStatus])
 
   return (
     <View style={styles.page}>
