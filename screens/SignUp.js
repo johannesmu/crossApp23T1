@@ -1,6 +1,7 @@
 import { View, Text, TextInput, TouchableOpacity, StyleSheet } from "react-native";
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useContext } from 'react'
 import { useNavigation } from "@react-navigation/native";
+import { AuthContext } from "../contexts/AuthContext";
 
 export function SignUpScreen(props) {
   const [email, setEmail] = useState("")
@@ -10,6 +11,8 @@ export function SignUpScreen(props) {
   const [validForm, setValidForm] = useState(false)
 
   const navigation = useNavigation()
+
+  const authStatus = useContext(AuthContext)
 
   useEffect(() => {
     if (email.indexOf('@') > 0) {
@@ -38,14 +41,20 @@ export function SignUpScreen(props) {
     }
   })
 
-  useEffect(() => {
-    if (props.authStatus) {
-      // navigate adds a back arrow to the header
-      // navigation.navigate("Home")
-      // reset will make "Home" the root page of the navigation
+  // useEffect(() => {
+  //   if (props.authStatus) {
+  //     // navigate adds a back arrow to the header
+  //     // navigation.navigate("Home")
+  //     // reset will make "Home" the root page of the navigation
+  //     navigation.reset({ index: 0, routes: [{ name: "Home" }] })
+  //   }
+  // }, [props.authStatus])
+
+  useEffect( () => {
+    if(authStatus) {
       navigation.reset({ index: 0, routes: [{ name: "Home" }] })
     }
-  }, [props.authStatus])
+  })
 
   return (
     <View style={styles.page}>
@@ -88,7 +97,7 @@ export function SignUpScreen(props) {
 
 const styles = StyleSheet.create({
   page: {
-    marginHorizontal: 60,
+    marginHorizontal: 15,
   },
   title: {
     fontSize: 20,
@@ -111,7 +120,7 @@ const styles = StyleSheet.create({
     marginVertical: 5,
   },
   button: {
-    backgroundColor: "#000000",
+    backgroundColor: "#056e01",
     padding: 10,
     marginVertical: 10,
   },
@@ -120,7 +129,7 @@ const styles = StyleSheet.create({
     textAlign: "center"
   },
   buttonDisabled: {
-    backgroundColor: "#666666",
+    backgroundColor: "#516351",
     padding: 10,
     marginVertical: 10,
   },

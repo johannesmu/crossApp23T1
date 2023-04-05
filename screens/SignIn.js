@@ -88,7 +88,7 @@ export function SignInScreen(props) {
 
 const styles = StyleSheet.create({
   page: {
-    marginHorizontal: 60,
+    marginHorizontal: 15,
   },
   title: {
     fontSize: 20,
@@ -111,7 +111,7 @@ const styles = StyleSheet.create({
     marginVertical: 5,
   },
   button: {
-    backgroundColor: "#000000",
+    backgroundColor: "#063966",
     padding: 10,
     marginVertical: 10,
   },
@@ -120,7 +120,7 @@ const styles = StyleSheet.create({
     textAlign: "center"
   },
   buttonDisabled: {
-    backgroundColor: "#666666",
+    backgroundColor: "#515b63",
     padding: 10,
     marginVertical: 10,
   },
