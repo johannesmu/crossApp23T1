@@ -36,13 +36,10 @@ export function HomeScreen(props) {
       }
       >
         <View style={styles.listItem}>
-
           <Text>
             {props.title}
           </Text>
-
-          <Text>{props.content}</Text>
-
+          <Text>{props.date}</Text>
         </View>
       </TouchableOpacity>
     )
@@ -79,7 +76,7 @@ export function HomeScreen(props) {
           />
           <View style={styles.buttonsRow}>
             <TouchableOpacity
-              style={styles.button}
+              style={styles.modalCloseButton}
               onPress={() => setShowModal(false)}
             >
               <Text style={styles.buttonText} >Close</Text>
@@ -111,6 +108,8 @@ export function HomeScreen(props) {
 const styles = StyleSheet.create({
   screen: {
     justifyContent: "center",
+    position: "relative",
+    flex: 1,
   },
   modal: {
     padding: 10,
@@ -133,10 +132,19 @@ const styles = StyleSheet.create({
     fontSize: 20,
     marginBottom: 10,
   },
+  modalCloseButton: {
+    backgroundColor: "#000000",
+    padding: 5,
+    flex: 1,
+  },
   button: {
     backgroundColor: "#000000",
     padding: 5,
     flex: 1,
+    position: "absolute",
+    bottom: 10,
+    right: 10,
+    zIndex: 999,
   },
   addButton: {
     padding: 5,
