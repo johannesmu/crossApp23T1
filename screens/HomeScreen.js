@@ -15,7 +15,7 @@ export function HomeScreen(props) {
 
   const saveNote = () => {
     setShowModal(false)
-    const noteObj = { title: title, content: note }
+    const noteObj = { title: title, content: note, date: new Date().getTime() }
     props.add(noteObj)
   }
 
@@ -31,20 +31,20 @@ export function HomeScreen(props) {
 
   const ListItem = (props) => {
     return (
-      <View
-        style={styles.listItem}
-
+      <TouchableOpacity onPress={
+        () => ListClickHandler({ id: props.id, title: props.title, content: props.content })
+      }
       >
-        <TouchableOpacity onPress={
-            () => ListClickHandler({ id: props.id, title: props.title, content: props.content })
-          }
-        >
+        <View style={styles.listItem}>
+
           <Text>
             {props.title}
           </Text>
-        </TouchableOpacity>
-        <Text>{props.content}</Text>
-      </View>
+
+          <Text>{props.content}</Text>
+
+        </View>
+      </TouchableOpacity>
     )
   }
 
@@ -64,7 +64,7 @@ export function HomeScreen(props) {
         onRequestClose={() => setShowModal(false)}
       >
         <View style={styles.modal}>
-          <Text style={styles.modalLabel}>Title</Text>
+          <Text style={styles.modalLabel}>Add a note</Text>
           <TextInput
             style={styles.modalInput}
             value={title}
