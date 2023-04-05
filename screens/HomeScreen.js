@@ -1,10 +1,13 @@
 import { View, Text, TouchableOpacity, Modal, TextInput, StyleSheet, FlatList } from "react-native"
 import { useNavigation } from "@react-navigation/native"
-import { useState, useEffect } from 'react'
-
+import { useState, useEffect, useContext } from 'react'
+import { AuthContext } from "../contexts/AuthContext"
+import { NoteContext } from "../contexts/NoteContext"
 
 export function HomeScreen(props) {
   const navigation = useNavigation()
+  const authStatus = useContext(AuthContext)
+  const Notes = useContext(NoteContext)
 
   const [showModal, setShowModal] = useState(false)
   const [title, setTitle] = useState('')
@@ -16,11 +19,11 @@ export function HomeScreen(props) {
     props.add(noteObj)
   }
 
-  // useEffect(() => {
-  //   if (!props.authStatus) {
-  //     navigation.reset({ index: 0, routes: [{ name: "Signin" }] })
-  //   }
-  // }, [props.authStatus])
+  useEffect(() => {
+    if (!authStatus) {
+      navigation.reset({ index: 0, routes: [{ name: "Signin" }] })
+    }
+  }, [authStatus])
 
   const ListClickHandler = (data) => {
     navigation.navigate("Detail", data)
@@ -96,7 +99,7 @@ export function HomeScreen(props) {
         <Text style={styles.buttonText}>Add Note</Text>
       </TouchableOpacity>
       <FlatList
-        data={props.data}
+        data={Notes}
         renderItem={({ item }) => (<ListItem title={item.title} id={item.id} content={item.content} />)}
         keyExtractor={item => item.id}
         ItemSeparatorComponent={ListItemSeparator}
