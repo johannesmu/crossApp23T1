@@ -47,7 +47,6 @@ export default function App() {
   onAuthStateChanged( FBauth, (user) => {
     if( user ) {
       setAuth( user )
-      // console.log( user.uid )
     }
     else {
       setAuth( null )
@@ -115,7 +114,11 @@ export default function App() {
     <NavigationContainer>
      <Stack.Navigator>
         <Stack.Screen name="Signup">
-          { (props) => <SignUpScreen {...props} handler={SignUp} authStatus={auth} /> }
+          { (props) => 
+          <AuthContext.Provider value={auth}>
+            <SignUpScreen {...props} handler={SignUp} /> 
+          </AuthContext.Provider>
+          }
         </Stack.Screen>
         <Stack.Screen name="Signin">
           { (props) => <SignInScreen {...props} handler={SignIn} authStatus={auth} /> }
