@@ -52,7 +52,6 @@ export function DetailScreen ( props ) {
     </View>
   )
 }
-
 const styles = StyleSheet.create({
   screen: {
     marginHorizontal: 10,
