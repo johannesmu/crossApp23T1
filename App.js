@@ -8,6 +8,7 @@ import { useState, useEffect } from 'react';
 import { AuthContext } from './contexts/AuthContext'
 import { NoteContext } from './contexts/NoteContext';
 import { FBAuthContext } from './contexts/FBAuthContext';
+import { FBDbContext } from './contexts/FBDbContext';
 // screens
 import { HomeScreen } from './screens/HomeScreen';
 import { SignUpScreen } from './screens/SignUp';
@@ -76,11 +77,11 @@ export default function App() {
 
 
 
-  const AddData = async (note) => {
-    const userId = auth.uid
-    const path = `users/${userId}/notes`
-    const ref = await addDoc(collection(FBdb, path), note)
-  }
+  // const AddData = async (note) => {
+  //   const userId = auth.uid
+  //   const path = `users/${userId}/notes`
+  //   const ref = await addDoc(collection(FBdb, path), note)
+  // }
 
   const GetData = () => {
     const userId = auth.uid
@@ -93,10 +94,20 @@ export default function App() {
         item.id = note.id
         notes.push(item)
       })
-      setNoteData(notes)
+      console.log('getting sorted...')
+      // sort notes here
+      setNoteData( sortNotes(notes) )
     })
   }
 
+  const sortNotes = ( data ) => {
+    data.sort( ( item1, item2 ) => {
+      console.log( item1.date)
+      return item1.date - item2.date
+    })
+    console.log( data )
+    return data
+  }
 
   return (
     <NavigationContainer>
@@ -117,6 +128,7 @@ export default function App() {
         </Stack.Screen>
         <Stack.Screen name="Home" options={{ headerShown: false }}>
           {(props) =>
+          <FBDbContext.Provider value={ FBdb }>
             <FBAuthContext.Provider value={ FBauth } >
               <AuthContext.Provider value={auth}>
                 <NoteContext.Provider value={noteData}>
@@ -124,6 +136,7 @@ export default function App() {
                 </NoteContext.Provider>
               </AuthContext.Provider>
             </FBAuthContext.Provider>
+            </FBDbContext.Provider>
           }
         </Stack.Screen>
         <Stack.Screen name="Detail">

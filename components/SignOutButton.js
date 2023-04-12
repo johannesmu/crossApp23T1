@@ -13,11 +13,22 @@ export function SignOutButton( props ) {
       }
     )
   }
+
   return (
-    <View>
-      <Pressable onPress={ () => SignOutHandler() }>
-        <Text>{ props.text }</Text>
+      <Pressable onPress={ () => SignOutHandler() } style={styles.button}>
+        <View>
+          <Text style={ styles.buttonText}>{ props.text }</Text>
+        </View>
       </Pressable>
-    </View>
   )
 }
+
+const styles = StyleSheet.create({
+  button: {
+    padding: 5,
+    backgroundColor: '#000000'
+  },
+  buttonText: {
+    color: "#FFFFFF",
+  }
+})

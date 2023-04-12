@@ -3,11 +3,16 @@ import { useNavigation } from "@react-navigation/native"
 import { useState, useEffect, useContext } from 'react'
 import { AuthContext } from "../contexts/AuthContext"
 import { NoteContext } from "../contexts/NoteContext"
+import { FBDbContext } from "../contexts/FBDbContext"
+
+import { addDoc,collection } from "firebase/firestore"
+import { add } from "react-native-reanimated"
 
 export function HomeScreen(props) {
   const navigation = useNavigation()
   const authStatus = useContext(AuthContext)
   const Notes = useContext(NoteContext)
+  const FBdb = useContext( FBDbContext )
 
   const [showModal, setShowModal] = useState(false)
   const [title, setTitle] = useState('')
@@ -16,7 +21,14 @@ export function HomeScreen(props) {
   const saveNote = () => {
     setShowModal(false)
     const noteObj = { title: title, content: note, date: new Date().getTime() }
-    props.add(noteObj)
+    //props.add(noteObj)
+    AddData( noteObj )
+  }
+
+  const AddData = async (note) => {
+    const userId = authStatus.uid
+    const path = `users/${userId}/notes`
+    const ref = await addDoc(collection(FBdb, path), note)
   }
 
   useEffect(() => {
@@ -32,7 +44,7 @@ export function HomeScreen(props) {
   const ListItem = (props) => {
     return (
       <TouchableOpacity onPress={
-        () => ListClickHandler({ id: props.id, title: props.title, content: props.content })
+        () => ListClickHandler({ id: props.id, title: props.title, content: props.content, date: props.date })
       }
       >
         <View style={styles.listItem}>
@@ -97,7 +109,7 @@ export function HomeScreen(props) {
       </TouchableOpacity>
       <FlatList
         data={Notes}
-        renderItem={({ item }) => (<ListItem title={item.title} id={item.id} content={item.content} />)}
+        renderItem={({ item }) => (<ListItem title={item.title} id={item.id} date={item.date} content={item.content} />)}
         keyExtractor={item => item.id}
         ItemSeparatorComponent={ListItemSeparator}
       />
