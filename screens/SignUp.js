@@ -50,6 +50,10 @@ export function SignUpScreen(props) {
     }
   }, [authStatus])
 
+  useEffect( () => {
+    navigation.setOptions({title: "Sign up for an account"})
+  })
+
   return (
     <View style={styles.page}>
       <Text style={styles.title}>Sign up for an account</Text>

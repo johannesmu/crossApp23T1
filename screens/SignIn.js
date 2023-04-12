@@ -11,6 +11,7 @@ export function SignInScreen(props) {
   const [validForm, setValidForm] = useState(false)
 
   const navigation = useNavigation()
+  
 
   const authStatus = useContext(AuthContext)
 
@@ -49,6 +50,10 @@ export function SignInScreen(props) {
       navigation.reset( { index: 0, routes: [ {name: "Home"} ] } )
     }
   }, [authStatus])
+
+  useEffect( () => {
+    navigation.setOptions({title: "Sign into your account"})
+  })
 
   return (
     <View style={styles.page}>
