@@ -1,14 +1,23 @@
-import { Text, Pressable, StyleSheet } from "react-native"
+import { View, Text, Pressable, StyleSheet } from 'react-native'
+import { useContext } from 'react'
+import { FBAuthContext } from '../contexts/FBAuthContext'
+import { signOut } from 'firebase/auth'
+
 export function SignOutButton( props ) {
+  const FBauth = useContext(FBAuthContext)
+  
+  const SignOutHandler = () => {
+    signOut(FBauth).then( 
+      () => {
+        // signed out
+      }
+    )
+  }
   return (
-    <Pressable onPress={ () => props.handler() } style={styles.button}>
-      <Text>{props.text}</Text>
-    </Pressable>
+    <View>
+      <Pressable onPress={ () => SignOutHandler() }>
+        <Text>{ props.text }</Text>
+      </Pressable>
+    </View>
   )
 }
-
-const styles = StyleSheet.create({
-  button: {
-    padding: 10,
-  }
-})

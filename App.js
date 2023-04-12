@@ -4,15 +4,16 @@ import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { useState, useEffect } from 'react';
-//contexts
-import { AuthContext } from './contexts/AuthContext';
+// contexts
+import { AuthContext } from './contexts/AuthContext'
+import { NoteContext } from './contexts/NoteContext';
+import { FBAuthContext } from './contexts/FBAuthContext';
 // screens
 import { HomeScreen } from './screens/HomeScreen';
 import { SignUpScreen } from './screens/SignUp';
 import { SignInScreen } from './screens/SignIn';
 import { DetailScreen } from './screens/DetailScreen';
-// components
-import { SignOutButton } from './components/SignOutButton';
+import { TabScreen } from './screens/TabScreen';
 // firebase modules
 import { firebaseConfig } from './config/Config';
 import { initializeApp } from 'firebase/app'
@@ -84,7 +85,6 @@ export default function App() {
   const AddData = async (note) => {
     const userId = auth.uid
     const path = `users/${userId}/notes`
-    // const data = { id: new Date().getTime(), description: "sample data"}
     const ref = await addDoc(collection(FBdb, path), note)
   }
 
@@ -103,35 +103,44 @@ export default function App() {
     })
   }
 
+
   return (
-      <NavigationContainer>
-        <Stack.Navigator>
-            <Stack.Screen name="Signup">
-                {(props) => 
-                <AuthContext.Provider value={auth}>
-                  <SignUpScreen {...props} handler={SignUp} />
-                </AuthContext.Provider>
-                }
-            </Stack.Screen>
-            <Stack.Screen name="Signin">
-              {(props) => 
+    <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen name="Signup">
+          {(props) =>
+            <AuthContext.Provider value={auth}>
+              <SignUpScreen {...props} handler={SignUp} />
+            </AuthContext.Provider>
+          }
+        </Stack.Screen>
+        <Stack.Screen name="Signin">
+          {(props) =>
+            <AuthContext.Provider value={auth}>
+              <SignInScreen {...props} handler={SignIn} />
+            </AuthContext.Provider>
+          }
+        </Stack.Screen>
+        <Stack.Screen name="Home" options={{ headerShown: false }}>
+          {(props) =>
+            <FBAuthContext.Provider value={ FBauth } >
               <AuthContext.Provider value={auth}>
-                <SignInScreen {...props} handler={SignIn} />
+                <NoteContext.Provider value={noteData}>
+                  <TabScreen {...props} />
+                </NoteContext.Provider>
               </AuthContext.Provider>
-              }
-            </Stack.Screen>
-            <Stack.Screen name="Home" options={{ headerRight: () => <SignOutButton handler={SignOut} text="Sign Out" /> }}>
-              {(props) =>
-              <AuthContext.Provider value={auth}>
-                <HomeScreen {...props} add={AddData} data={noteData} />
-              </AuthContext.Provider>
-              }
-            </Stack.Screen>
-            <Stack.Screen name="Detail">
-              {(props) => <DetailScreen {...props} />}
-            </Stack.Screen>
-        </Stack.Navigator>
-      </NavigationContainer>
+            </FBAuthContext.Provider>
+          }
+        </Stack.Screen>
+        <Stack.Screen name="Detail">
+          {(props) =>
+            <AuthContext.Provider value={auth}>
+              <DetailScreen {...props} />
+            </AuthContext.Provider>
+          }
+        </Stack.Screen>
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
 

@@ -11,6 +11,7 @@ export function SignUpScreen(props) {
   const [validForm, setValidForm] = useState(false)
 
   const navigation = useNavigation()
+  const authStatus = useContext( AuthContext )
 
   const authStatus = useContext(AuthContext)
 
@@ -41,20 +42,13 @@ export function SignUpScreen(props) {
     }
   })
 
-  // useEffect(() => {
-  //   if (props.authStatus) {
-  //     // navigate adds a back arrow to the header
-  //     // navigation.navigate("Home")
-  //     // reset will make "Home" the root page of the navigation
-  //     navigation.reset({ index: 0, routes: [{ name: "Home" }] })
-  //   }
-  // }, [props.authStatus])
-
-  useEffect( () => {
-    if(authStatus) {
+  useEffect(() => {
+    if (authStatus) {
+      // navigate adds a back arrow to the header
+      // navigation.navigate("Home")
+      // reset will make "Home" the root page of the navigation
       navigation.reset({ index: 0, routes: [{ name: "Home" }] })
     }
-    
   }, [authStatus])
 
   return (
