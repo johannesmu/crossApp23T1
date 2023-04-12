@@ -18,9 +18,8 @@ export function DetailScreen ( props ) {
 
   const deleteNote =async () => {
     const path = `users/${authStatus.uid}/notes`
-    const ref = doc( DB, path, id )
-    //await deleteDoc(doc( DB, path, id ) )
-    //navigation.goBack()
+    await deleteDoc(doc( DB, path, id ) )
+    navigation.goBack()
   }
 
   const updateNote = () => {}

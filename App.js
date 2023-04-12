@@ -123,9 +123,11 @@ export default function App() {
         </Stack.Screen>
         <Stack.Screen name="Detail">
           {(props) =>
-            <AuthContext.Provider value={auth}>
-              <DetailScreen {...props} />
-            </AuthContext.Provider>
+            <DBContext.Provider value={FBdb}>
+              <AuthContext.Provider value={auth}>
+                <DetailScreen {...props} />
+              </AuthContext.Provider>
+            </DBContext.Provider>
           }
         </Stack.Screen>
       </Stack.Navigator>
