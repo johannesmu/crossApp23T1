@@ -7,12 +7,14 @@ import { AuthContext } from '../contexts/AuthContext'
 export function DetailScreen ( props ) {
   const authStatus = useContext( AuthContext )
   const route = useRoute()
-  const { id, title, content } = route.params
+  const { id, title, content, date } = route.params
 
   return (
     <View>
       <Text>{title}</Text>
+      <Text>{id}</Text>
       <Text>{content}</Text>
+      <Text>{date}</Text>
     </View>
   )
 }

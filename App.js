@@ -8,6 +8,7 @@ import { useState, useEffect } from 'react';
 import { AuthContext } from './contexts/AuthContext'
 import { NoteContext } from './contexts/NoteContext';
 import { FBAuthContext } from './contexts/FBAuthContext';
+import { DBContext } from './contexts/DBcontext';
 // screens
 import { HomeScreen } from './screens/HomeScreen';
 import { SignUpScreen } from './screens/SignUp';
@@ -74,20 +75,6 @@ export default function App() {
       .catch((error) => console.log(error))
   }
 
-  const SignOut = () => {
-    signOut(FBauth)
-      .then(() => {
-        //now the user is signed out
-      })
-      .catch((err) => console.log(error))
-  }
-
-  const AddData = async (note) => {
-    const userId = auth.uid
-    const path = `users/${userId}/notes`
-    const ref = await addDoc(collection(FBdb, path), note)
-  }
-
   const GetData = () => {
     const userId = auth.uid
     const path = `users/${userId}/notes`
@@ -123,12 +110,14 @@ export default function App() {
         </Stack.Screen>
         <Stack.Screen name="Home" options={{ headerShown: false }}>
           {(props) =>
-            <FBAuthContext.Provider value={ FBauth } >
-              <AuthContext.Provider value={auth}>
-                <NoteContext.Provider value={noteData}>
-                  <TabScreen {...props} />
-                </NoteContext.Provider>
-              </AuthContext.Provider>
+            <FBAuthContext.Provider value={FBauth} >
+              <DBContext.Provider value={FBdb} >
+                <AuthContext.Provider value={auth}>
+                  <NoteContext.Provider value={noteData}>
+                    <TabScreen {...props} />
+                  </NoteContext.Provider>
+                </AuthContext.Provider>
+              </DBContext.Provider>
             </FBAuthContext.Provider>
           }
         </Stack.Screen>

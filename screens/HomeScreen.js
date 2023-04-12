@@ -3,20 +3,27 @@ import { useNavigation } from "@react-navigation/native"
 import { useState, useEffect, useContext } from 'react'
 import { AuthContext } from "../contexts/AuthContext"
 import { NoteContext } from "../contexts/NoteContext"
+import { DBContext } from "../contexts/DBcontext"
+import { addDoc, collection } from "firebase/firestore"
 
 export function HomeScreen(props) {
   const navigation = useNavigation()
   const authStatus = useContext(AuthContext)
   const Notes = useContext(NoteContext)
+  const DB = useContext( DBContext )
 
   const [showModal, setShowModal] = useState(false)
   const [title, setTitle] = useState('')
   const [note, setNote] = useState('')
 
-  const saveNote = () => {
+  const saveNote = async () => {
     setShowModal(false)
-    const noteObj = { title: title, content: note }
-    props.add(noteObj)
+    const noteObj = { title: title, content: note, date: new Date().getTime() }
+    // add note to firebase
+    const path = `users/${authStatus.uid}/notes`
+    const ref = await addDoc( collection(DB, path), noteObj )
+    setTitle('')
+    setNote('')
   }
 
   useEffect(() => {
@@ -26,24 +33,28 @@ export function HomeScreen(props) {
   }, [authStatus])
 
   const ListClickHandler = (data) => {
+    console.log(data)
     navigation.navigate("Detail", data)
   }
 
   const ListItem = (props) => {
     return (
-      <View
-        style={styles.listItem}
-
-      >
+      <View style={styles.listItem}>
         <TouchableOpacity onPress={
-            () => ListClickHandler({ id: props.id, title: props.title, content: props.content })
+            () => ListClickHandler(
+              { 
+                id: props.id, 
+                title: props.title, 
+                content: props.content, 
+                date: props.date
+              }
+            )
           }
         >
           <Text>
             {props.title}
           </Text>
         </TouchableOpacity>
-        <Text>{props.content}</Text>
       </View>
     )
   }
@@ -100,7 +111,14 @@ export function HomeScreen(props) {
       </TouchableOpacity>
       <FlatList
         data={Notes}
-        renderItem={({ item }) => (<ListItem title={item.title} id={item.id} content={item.content} />)}
+        renderItem={({ item }) => (
+        <ListItem 
+          title={item.title} 
+          id={item.id} 
+          content={item.content} 
+          date={item.date}
+        />
+        )}
         keyExtractor={item => item.id}
         ItemSeparatorComponent={ListItemSeparator}
       />
