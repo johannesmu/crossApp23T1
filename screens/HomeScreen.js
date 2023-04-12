@@ -7,6 +7,7 @@ import { DBContext } from "../contexts/DBcontext"
 import { addDoc, collection } from "firebase/firestore"
 import { ListItem } from "../components/ListItem"
 import { ListItemSeparator} from "../components/ListItemSeparator"
+import IonIcons from '@expo/vector-icons/Ionicons'
 
 export function HomeScreen(props) {
   const navigation = useNavigation()
@@ -37,11 +38,7 @@ export function HomeScreen(props) {
   const ListClickHandler = (data) => {
     navigation.navigate("Detail", data)
   }
-
   
-
-  
-
   return (
     <View style={styles.screen}>
       {/* modal element */}
@@ -67,7 +64,7 @@ export function HomeScreen(props) {
           />
           <View style={styles.buttonsRow}>
             <TouchableOpacity
-              style={styles.button}
+              style={styles.closeButton}
               onPress={() => setShowModal(false)}
             >
               <Text style={styles.buttonText} >Close</Text>
@@ -84,7 +81,7 @@ export function HomeScreen(props) {
       </Modal>
       {/* button to open modal */}
       <TouchableOpacity style={styles.button} onPress={() => setShowModal(true)} >
-        <Text style={styles.buttonText}>Add Note</Text>
+        <IonIcons name="add-outline" size={28} color="white" />
       </TouchableOpacity>
       <FlatList
         data={Notes}
@@ -107,6 +104,7 @@ export function HomeScreen(props) {
 const styles = StyleSheet.create({
   screen: {
     justifyContent: "center",
+    position: "relative"
   },
   modal: {
     padding: 10,
@@ -131,12 +129,20 @@ const styles = StyleSheet.create({
   },
   button: {
     backgroundColor: "#000000",
-    padding: 5,
-    flex: 1,
+    padding: 10,
+    position: "absolute",
+    top: 10,
+    right: 10,
+    zIndex: 999,
   },
   addButton: {
-    padding: 5,
+    padding: 10,
     backgroundColor: "green",
+    flex: 1,
+  },
+  closeButton: {
+    backgroundColor: "#000000",
+    padding: 10,
     flex: 1,
   },
   buttonText: {
