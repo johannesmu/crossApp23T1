@@ -5,6 +5,8 @@ import { AuthContext } from "../contexts/AuthContext"
 import { NoteContext } from "../contexts/NoteContext"
 import { DBContext } from "../contexts/DBcontext"
 import { addDoc, collection } from "firebase/firestore"
+import { ListItem } from "../components/ListItem"
+import { ListItemSeparator} from "../components/ListItemSeparator"
 
 export function HomeScreen(props) {
   const navigation = useNavigation()
@@ -33,37 +35,12 @@ export function HomeScreen(props) {
   }, [authStatus])
 
   const ListClickHandler = (data) => {
-    console.log(data)
     navigation.navigate("Detail", data)
   }
 
-  const ListItem = (props) => {
-    return (
-      <View style={styles.listItem}>
-        <TouchableOpacity onPress={
-            () => ListClickHandler(
-              { 
-                id: props.id, 
-                title: props.title, 
-                content: props.content, 
-                date: props.date
-              }
-            )
-          }
-        >
-          <Text>
-            {props.title}
-          </Text>
-        </TouchableOpacity>
-      </View>
-    )
-  }
+  
 
-  const ListItemSeparator = (props) => {
-    return (
-      <View style={styles.separator} ></View>
-    )
-  }
+  
 
   return (
     <View style={styles.screen}>
@@ -117,6 +94,7 @@ export function HomeScreen(props) {
           id={item.id} 
           content={item.content} 
           date={item.date}
+          handler={ ListClickHandler }
         />
         )}
         keyExtractor={item => item.id}
@@ -175,9 +153,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between"
   },
-  separator: {
-    backgroundColor: '#CCCCCC',
-    height: 2,
-  }
+  
 })
 
