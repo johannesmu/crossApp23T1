@@ -13,7 +13,6 @@ export function SignUpScreen(props) {
   const navigation = useNavigation()
   const authStatus = useContext( AuthContext )
 
-  const authStatus = useContext(AuthContext)
 
   useEffect(() => {
     if (email.indexOf('@') > 0) {
