@@ -74,13 +74,7 @@ export default function App() {
       .catch((error) => console.log(error))
   }
 
-  const SignOut = () => {
-    signOut(FBauth)
-      .then(() => {
-        //now the user is signed out
-      })
-      .catch((err) => console.log(error))
-  }
+
 
   const AddData = async (note) => {
     const userId = auth.uid
