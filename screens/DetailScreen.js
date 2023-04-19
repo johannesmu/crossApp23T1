@@ -16,13 +16,17 @@ export function DetailScreen ( props ) {
   const [ noteTitle, setNoteTitle ] = useState(title)
   const [ noteContent, setNoteContent ] = useState(content)
 
-  const deleteNote =async () => {
+  const deleteNote = async () => {
     const path = `users/${authStatus.uid}/notes`
     await deleteDoc(doc( DB, path, id ) )
     navigation.goBack()
   }
 
-  const updateNote = () => {}
+  const updateNote = async () => {
+    const path = `users/${authStatus.uid}/notes`
+    await updateDoc( doc( DB, path, id), { title: noteTitle, content: noteContent } )
+    navigation.goBack()
+  }
 
   return (
     <View style={styles.screen}>
@@ -43,7 +47,7 @@ export function DetailScreen ( props ) {
         <TouchableOpacity style={styles.delete} onPress={ () => deleteNote() }>
           <IonIcons name="trash-outline" size={28} color="black" />
         </TouchableOpacity>
-        <TouchableOpacity style={styles.save}>
+        <TouchableOpacity style={styles.save} onPress={ () => updateNote() }>
           <IonIcons name="save-outline" size={28} color="black" />
         </TouchableOpacity>
       </View>
