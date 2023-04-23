@@ -2,6 +2,7 @@ import { View, Text, TextInput, TouchableOpacity, StyleSheet } from "react-nativ
 import { useEffect, useState, useContext } from 'react'
 import { useNavigation } from "@react-navigation/native";
 import { AuthContext } from "../contexts/AuthContext";
+import { FBAuthContext } from "../contexts/FBAuthContext";
 
 export function SignUpScreen(props) {
   const [email, setEmail] = useState("")
@@ -12,6 +13,7 @@ export function SignUpScreen(props) {
 
   const navigation = useNavigation()
   const authStatus = useContext( AuthContext )
+  const FBauth = useContext(FBAuthContext)
 
   useEffect(() => {
     if (email.indexOf('@') > 0) {
@@ -49,6 +51,12 @@ export function SignUpScreen(props) {
     }
   }, [authStatus])
 
+  const SignUp = (email, password) => {
+    createUserWithEmailAndPassword(FBauth, email, password)
+      .then((userCredential) => console.log(userCredential))
+      .catch((error) => console.log(error))
+  }
+
   return (
     <View style={styles.page}>
       <Text style={styles.title}>Sign up for an account</Text>
@@ -74,7 +82,7 @@ export function SignUpScreen(props) {
       <TouchableOpacity
         style={(validForm) ? styles.button : styles.buttonDisabled}
         disabled={(validForm) ? false : true}
-        onPress={() => props.handler(email, password)}
+        onPress={() => SignUp(email, password)}
       >
         <Text style={styles.buttonText}>Sign up</Text>
       </TouchableOpacity>

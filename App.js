@@ -22,18 +22,13 @@ import {
   getAuth,
   createUserWithEmailAndPassword,
   onAuthStateChanged,
-  signOut,
   signInWithEmailAndPassword
 } from "firebase/auth"
 
 import {
   getFirestore,
-  doc,
-  setDoc,
-  addDoc,
   collection,
   query,
-  where,
   onSnapshot
 } from 'firebase/firestore'
 
@@ -96,9 +91,11 @@ export default function App() {
       <Stack.Navigator>
         <Stack.Screen name="Signup">
           {(props) =>
+          <FBAuthContext.Provider value={FBauth}>
             <AuthContext.Provider value={auth}>
               <SignUpScreen {...props} handler={SignUp} />
             </AuthContext.Provider>
+          </FBAuthContext.Provider>
           }
         </Stack.Screen>
         <Stack.Screen name="Signin">
