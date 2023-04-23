@@ -1,9 +1,9 @@
-import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native'
+import { View, Text, TextInput, TouchableOpacity, Modal, StyleSheet, Pressable } from 'react-native'
 import { useRoute, useNavigation } from '@react-navigation/native'
 import { useContext, useState } from 'react'
 import { AuthContext } from '../contexts/AuthContext'
 import { DBContext } from '../contexts/DBcontext'
-import { doc, collection, deleteDoc, updateDoc } from 'firebase/firestore'
+import { doc, deleteDoc, updateDoc } from 'firebase/firestore'
 import IonIcons from '@expo/vector-icons/Ionicons'
 
 export function DetailScreen ( props ) {
@@ -15,14 +15,19 @@ export function DetailScreen ( props ) {
 
   const [ noteTitle, setNoteTitle ] = useState(title)
   const [ noteContent, setNoteContent ] = useState(content)
+  const [ showModal, setShowModal ] = useState(false)
 
-  const deleteNote =async () => {
+  const deleteNote = async () => {
     const path = `users/${authStatus.uid}/notes`
     await deleteDoc(doc( DB, path, id ) )
     navigation.goBack()
   }
 
-  const updateNote = () => {}
+  const updateNote = async () => {
+    const path = `users/${authStatus.uid}/notes`
+    await updateDoc( doc( DB, path, id), { title: noteTitle, content: noteContent } )
+    navigation.goBack()
+  }
 
   return (
     <View style={styles.screen}>
@@ -40,14 +45,24 @@ export function DetailScreen ( props ) {
         multiline={true}
       />
       <View style={styles.row}>
-        <TouchableOpacity style={styles.delete} onPress={ () => deleteNote() }>
+        <TouchableOpacity style={styles.delete} onPress={ () => setShowModal(true) }>
           <IonIcons name="trash-outline" size={28} color="black" />
         </TouchableOpacity>
-        <TouchableOpacity style={styles.save}>
+        <TouchableOpacity style={styles.save} onPress={ () => updateNote() }>
           <IonIcons name="save-outline" size={28} color="black" />
         </TouchableOpacity>
       </View>
-
+      {/* Modal */}
+      <Modal visible={showModal} style={styles.modal}>
+        <View style={styles.row}>
+          <Pressable style={styles.deleteNote} onPress={ () => deleteNote() }>
+            <Text>Delete Note?</Text>
+          </Pressable>
+          <Pressable style={styles.cancelDelete} onPress={ () => setShowModal(false) }>
+            <Text>Cancel</Text>
+          </Pressable>
+        </View>
+      </Modal>
     </View>
   )
 }
@@ -81,5 +96,17 @@ const styles = StyleSheet.create({
   save: {
     flex: 1,
     padding: 10,
-  }
+  },
+  deleteNote: {
+    padding: 10,
+    backgroundColor: "#f9db81"
+  },
+  cancelDelete: {
+    padding: 10,
+    backgroundColor: "#dbf981"
+  },
+  modal: {
+    padding: 20,
+    paddingTop: 100,
+  },
 })
